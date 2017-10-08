@@ -25,6 +25,17 @@ app.get('/notepad', (req, res) => {
   })
 })
 
+app.post('/notepad', (req, res) => {
+  MongoClient.connect(url, (err, db) => {
+    if (err) {
+      console.error(err)
+      res.sendStatus(500)
+      process.exit(1)
+    }
+    res.sendStatus(201)
+  })
+})
+
 app.listen(3000, () => {
   console.log('Web Api Listening on Port 3000!')
 })
