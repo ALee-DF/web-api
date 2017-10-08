@@ -52,10 +52,11 @@ app.put('/notepad/:id', (req, res) => {
     }
     const notepad = db.collection('notepad')
     const noteId = {
-      _id: parseInt(req.params.id, 10)
+      _id: req.params.id
     }
     const update = req.body
-    notepad.updateOne(noteId, update)
+    console.log(noteId)
+    notepad.updateOne(noteId, { $set: update })
       .then(() => res.sendStatus(200))
       .catch(err => {
         console.error(err)
