@@ -32,7 +32,14 @@ app.post('/notepad', (req, res) => {
       res.sendStatus(500)
       process.exit(1)
     }
-    res.sendStatus(201)
+    const notepad = db.collection('notepad')
+    notepad.insertOne(req.body)
+      .then(() => res.sendStatus(201))
+      .catch(err => {
+        console.error(err)
+        res.sendStatus(400)
+      })
+      .then(() => db.close())
   })
 })
 
