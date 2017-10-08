@@ -67,6 +67,27 @@ app.put('/notepad/:id', (req, res) => {
   })
 })
 
+app.delete('/notepad/:id', (req, res) => {
+  MongoClient.connect(url, (err, db) => {
+    if (err) {
+      console.error(err)
+      res.sendStatus(500)
+      process.exit(1)
+    }
+    const notepad = db.collection('notepad')
+    const noteId = {
+      id: req.params.id
+    }
+    notepad.deleteOne(noteId)
+      .then(() => res.sendStatus(204))
+      .catch(err => {
+        console.error(err)
+        res.sendStatus(404)
+      })
+      .then(() => db.close())
+  })
+})
+
 app.listen(3000, () => {
   console.log('Web Api Listening on Port 3000!')
 })
