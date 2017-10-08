@@ -13,7 +13,15 @@ app.get('/notepad', (req, res) => {
       process.exit(1)
     }
     const notepad = db.collection('notepad')
-    console.log(notepad)
+    notepad
+      .find()
+      .toArray()
+      .then(notes => res.json(notes))
+      .catch(err => {
+        console.error(err)
+        res.sendStatus(500)
+      })
+      .then(() => db.close())
   })
 })
 
