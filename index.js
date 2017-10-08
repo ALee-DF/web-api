@@ -44,7 +44,13 @@ app.post('/notepad', (req, res) => {
 })
 
 app.put('/notepad/:id', (req, res) => {
-
+  MongoClient.connect(url, (err, db) => {
+    if (err) {
+      console.error(err)
+      res.sendStatus(500)
+      process.exit(1)
+    }
+  })
 })
 
 app.listen(3000, () => {
