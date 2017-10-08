@@ -51,7 +51,17 @@ app.put('/notepad/:id', (req, res) => {
       process.exit(1)
     }
     const notepad = db.collection('notepad')
-    console.log(notepad)
+    const noteId = {
+      _id: parseInt(req.params.id, 10)
+    }
+    const update = req.body
+    notepad.updateOne(noteId, update)
+      .then(() => res.sendStatus(200))
+      .catch(err => {
+        console.error(err)
+        res.sendStatus(400)
+      })
+      .then(() => db.close())
   })
 })
 
