@@ -75,7 +75,16 @@ app.delete('/notepad/:id', (req, res) => {
       process.exit(1)
     }
     const notepad = db.collection('notepad')
-    console.log(notepad)
+    const noteId = {
+      id: req.params.id
+    }
+    notepad.deleteOne(noteId)
+      .then(() => res.sendStatus(204))
+      .catch(err => {
+        console.error(err)
+        res.sendStatus(404)
+      })
+      .then(() => db.close())
   })
 })
 
